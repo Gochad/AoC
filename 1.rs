@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::{self, BufRead};
+use std::collections::HashMap;
 
 fn read_input() -> (Vec<i64>, Vec<i64>) {
     let file_path = "1_input.txt";
@@ -36,5 +37,17 @@ fn main() {
         sum += (first_list[i] - second_list[i]).abs();
     }
 
+    let mut mult: i64 = 0;
+    let mut counts = HashMap::new();
+    for &item in &second_list {
+        *counts.entry(item).or_insert(0) += 1;
+    }
+
+    for i in 0..first_list.len() {
+        let count = counts.get(&first_list[i]).unwrap_or(&0);
+        mult += first_list[i] * count; 
+    }
+
     println!("{:?}", sum); 
+    println!("{:?}", mult); 
 }
